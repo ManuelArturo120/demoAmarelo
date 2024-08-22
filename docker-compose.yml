@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: demoAmarelo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: mi-rabbitmq
+    ports:
+      - "5672:5672"  # Puerto de RabbitMQ
+      - "15672:15672"  # Puerto del panel de administración
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  microservicio:
+    build: .
+    container_name: demo
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+      - rabbitmq
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://localhost:27017/demoAmarelo
+      SPRING_RABBITMQ_HOST: mi-rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+
+volumes:
+  mongo_data:

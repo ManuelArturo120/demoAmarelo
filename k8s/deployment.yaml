@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoAmarelo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demoAmarelo
+  template:
+    metadata:
+      labels:
+        app: mi-microservicio
+    spec:
+      containers:
+      - name: mi-microservicio
+        image: 381491930896.dkr.ecr.us-east-1.amazonaws.com/amarelo:latest
+        ports:
+        - containerPort: 8090
+        env:
+        - name: SPRING_DATA_MONGODB_URI
+          value: "mongodb://mi-mongo:27017/demoAmarelo"
+        - name: SPRING_RABBITMQ_HOST
+          value: "mi-rabbitmq"
+        - name: SPRING_RABBITMQ_PORT
+          value: "5672"
+        - name: SPRING_RABBITMQ_USERNAME
+          value: "guest"
+        - name: SPRING_RABBITMQ_PASSWORD
+          value: "guest"

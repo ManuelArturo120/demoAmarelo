@@ -1,0 +1,35 @@
+{
+  "family": "amarelo2",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "amarelo2",
+      "image": "381491930896.dkr.ecr.us-east-1.amazonaws.com/amarelo2:latest",
+      "memory": 512,
+      "cpu": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::381491930896:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::381491930896:role/ecsTaskExecutionRole",
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "subnet-abc123"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  }
+}
